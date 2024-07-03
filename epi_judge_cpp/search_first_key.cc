@@ -4,8 +4,37 @@
 using std::vector;
 
 int SearchFirstOfK(const vector<int>& A, int k) {
-  // TODO - you fill in here.
-  return 0;
+    bool is_existed = std::binary_search(std::begin(A), std::end(A), k);
+
+    if (is_existed) {
+        return std::lower_bound(std::begin(A), std::end(A), k) - std::begin(A);
+    }
+    else {
+        return -1;
+    }
+
+    /*auto left = A.begin();
+    auto right = A.end();
+
+    int index = -1;
+
+    while (left < right) {
+        int size = right - left;
+        auto mid = left + size / 2;
+        int target = *mid;
+
+        if (k <= target) {
+            if (k == target) {
+                index = mid - std::begin(A);
+            }
+            right = mid;
+        }
+        else if (k > target) {
+            left = mid + 1;
+        }
+    }
+
+    return index;*/
 }
 
 int main(int argc, char* argv[]) {
