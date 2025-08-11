@@ -2,7 +2,7 @@ problem_mapping = {
     "Chapter 04: Primitive Types": {
         "4.00 Bootcamp: Primitive Types": {
             "C++: count_bits.cc": {
-                "passed": 0,
+                "passed": 10001,
                 "total": 10001
             },
             "Java: CountBits.java": {
@@ -16,7 +16,7 @@ problem_mapping = {
         },
         "4.01 Computing the parity of a word": {
             "C++: parity.cc": {
-                "passed": 0,
+                "passed": 10000,
                 "total": 10000
             },
             "Java: Parity.java": {
@@ -100,7 +100,7 @@ problem_mapping = {
         },
         "4.07 Compute pow(x,y)": {
             "C++: power_x_y.cc": {
-                "passed": 0,
+                "passed": 10002,
                 "total": 10002
             },
             "Java: PowerXY.java": {
