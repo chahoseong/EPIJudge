@@ -8,50 +8,84 @@ using std::vector;
 enum class Color { kRed, kWhite, kBlue };
 
 void DutchFlagPartition(int pivot_index, vector<Color>* A_ptr) {
-  // TODO - you fill in here.
-  return;
+	vector<Color>& colors = *A_ptr;
+	Color pivot = colors[pivot_index];
+
+	int left = 0;
+	int right = colors.size() - 1;
+
+	while (left < right) {
+		while (left < colors.size() && colors[left] < pivot) {
+			++left;
+		}
+
+		while (right > 0 && colors[right] >= pivot) {
+			--right;
+		}
+
+		if (left < right) {
+			std::swap(colors[left], colors[right]);
+		}
+	}
+
+	right = colors.size() - 1;
+	while (left < right) {
+		while (left < colors.size() && colors[left] == pivot) {
+			++left;
+		}
+		while (right > 0 && colors[right] != pivot) {
+			--right;
+		}
+
+		if (left < right) {
+			std::swap(colors[left], colors[right]);
+		}
+	}
+
+	return;
 }
 void DutchFlagPartitionWrapper(TimedExecutor& executor, const vector<int>& A,
-                               int pivot_idx) {
-  vector<Color> colors;
-  colors.resize(A.size());
-  std::array<int, 3> count = {0, 0, 0};
-  for (size_t i = 0; i < A.size(); i++) {
-    count[A[i]]++;
-    colors[i] = static_cast<Color>(A[i]);
-  }
-  Color pivot = colors[pivot_idx];
+	int pivot_idx) {
+	vector<Color> colors;
+	colors.resize(A.size());
+	std::array<int, 3> count = { 0, 0, 0 };
+	for (size_t i = 0; i < A.size(); i++) {
+		count[A[i]]++;
+		colors[i] = static_cast<Color>(A[i]);
+	}
+	Color pivot = colors[pivot_idx];
 
-  executor.Run([&] { DutchFlagPartition(pivot_idx, &colors); });
+	executor.Run([&] { DutchFlagPartition(pivot_idx, &colors); });
 
-  int i = 0;
-  while (i < colors.size() && colors[i] < pivot) {
-    count[static_cast<int>(colors[i])]--;
-    ++i;
-  }
+	int i = 0;
+	while (i < colors.size() && colors[i] < pivot) {
+		count[static_cast<int>(colors[i])]--;
+		++i;
+	}
 
-  while (i < colors.size() && colors[i] == pivot) {
-    count[static_cast<int>(colors[i])]--;
-    ++i;
-  }
+	while (i < colors.size() && colors[i] == pivot) {
+		count[static_cast<int>(colors[i])]--;
+		++i;
+	}
 
-  while (i < colors.size() && colors[i] > pivot) {
-    count[static_cast<int>(colors[i])]--;
-    ++i;
-  }
+	while (i < colors.size() && colors[i] > pivot) {
+		count[static_cast<int>(colors[i])]--;
+		++i;
+	}
 
-  if (i != colors.size()) {
-    throw TestFailure("Not partitioned after " + std::to_string(i) +
-                      "th element");
-  } else if (count != std::array<int, 3>{0, 0, 0}) {
-    throw TestFailure("Some elements are missing from original array");
-  }
+	if (i != colors.size()) {
+		throw TestFailure("Not partitioned after " + std::to_string(i) +
+			"th element");
+	}
+	else if (count != std::array<int, 3>{0, 0, 0}) {
+		throw TestFailure("Some elements are missing from original array");
+	}
 }
 
 int main(int argc, char* argv[]) {
-  std::vector<std::string> args{argv + 1, argv + argc};
-  std::vector<std::string> param_names{"executor", "A", "pivot_idx"};
-  return GenericTestMain(args, "dutch_national_flag.cc",
-                         "dutch_national_flag.tsv", &DutchFlagPartitionWrapper,
-                         DefaultComparator{}, param_names);
+	std::vector<std::string> args{ argv + 1, argv + argc };
+	std::vector<std::string> param_names{ "executor", "A", "pivot_idx" };
+	return GenericTestMain(args, "dutch_national_flag.cc",
+		"dutch_national_flag.tsv", &DutchFlagPartitionWrapper,
+		DefaultComparator{}, param_names);
 }
