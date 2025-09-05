@@ -1,30 +1,29 @@
 #include <vector>
 
 #include "test_framework/generic_test.h"
+
 using std::vector;
+
 vector<int> PlusOne(vector<int> A) {
+	if (A.empty()) {
+		return vector<int>();
+	}
+
+	A.back() += 1;
+	int carry = A.back() / 10;
+	A.back() %= 10;
+
 	auto it = A.rbegin();
-
-	int digit = *it + 1;
-	int carry = digit / 10;
-	*it = digit % 10;
-
 	++it;
 
-	while (it != A.rend()) {
-		digit = *it + carry;
-		carry = digit / 10;
-		*it = digit % 10;
-
-		if (carry == 0) {
-			break;
-		}
-
+	while (it != A.rend() && carry != 0) {
+		*it += carry;
+		carry = *it / 10;
+		*it %= 10;
 		++it;
 	}
 
-	if (carry != 0)
-	{
+	if (carry) {
 		A[0] = 1;
 		A.push_back(0);
 	}
