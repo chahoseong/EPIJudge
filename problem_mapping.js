@@ -312,7 +312,7 @@ problem_mapping = {
         },
         "5.10 Permute the elements of an array": {
             "C++: apply_permutation.cc": {
-                "passed": 0,
+                "passed": 101,
                 "total": 101
             },
             "Java: ApplyPermutation.java": {
@@ -382,7 +382,7 @@ problem_mapping = {
         },
         "5.15 Compute a random subset": {
             "C++: random_subset.cc": {
-                "passed": 0,
+                "passed": 2,
                 "total": 9
             },
             "Java: RandomSubset.java": {
